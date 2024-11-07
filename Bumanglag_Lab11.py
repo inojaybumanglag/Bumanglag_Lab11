@@ -2,36 +2,35 @@ student_grades = []
 students = 0
 passed = 0
 
+print("\nEnter grades for the students (between 40 and 100). Type 'DONE' when finished.\n")
+
 while True:
-    grade_input = int(input("Enter a Grade: "))
-    
-    if grade_input <= 39 or grade_input >= 100:
-        print(str("Invalid Input. Must be between 40 and 100."))
+    grade_input = input("Enter a Grade: ")
+
+    if grade_input.lower() == 'done':
+
+        if student_grades:
+
+            average = sum(student_grades) / students
+            print(f"\n**Average Grade: {average:.2f}%")
+            print(f"**Number of Students Passed: {passed}")
+            passing_percentage = (passed / students) * 100
+            print(f"**Passing Percentage: {passing_percentage:.2f}%\n")
+
+        else:
+            print("No grades were entered.")
         break
-    
+
+    if grade_input.replace(".", "", 1).isdigit():
+        grade_input = float(grade_input)
+
+        if 40 <= grade_input <= 100:
+            students += 1
+            student_grades.append(grade_input)
+
+            if grade_input >= 75:
+                passed += 1
+        else:
+            print("Invalid Input. Grade must be between 40 and 100.")
     else:
-        students +=1
-        student_grades.append(int(grade_input))
-        
-        grade_average = sum(student_grades) / len(student_grades)
-    
-        if grade_input >= 75:
-            passed += 1
-            
-    confirmation = input("Enter Another Grade? (Y/N): ")
-    
-    if confirmation.lower() == "n":
-        
-        average = sum(student_grades)/students
-        print(f"**Average Grade: {average:.2f}%")
-        print(f"**No. of Students Passed: {passed}")
-        
-        passing_percentage = passed/students*100
-        print(f"**Passing Percentage: {passing_percentage:.2f}%")
-        break
-        
-    elif confirmation.lower() == "y":
-        continue
-    
-    else:
-        print("Invalid Input. Must be between 40 and 100.")
+        print("Invalid Input. Please enter a number between 40 and 100 or 'DONE' to finish.")
